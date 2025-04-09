@@ -1,6 +1,7 @@
 from enum import Enum
 from pathlib import Path
 import os
+
 from crawler.crawler_services.shared.env_handler import env_handler
 
 S_SERVER = env_handler.get_instance().env('S_SERVER')

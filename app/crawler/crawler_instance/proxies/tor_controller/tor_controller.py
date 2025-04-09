@@ -3,17 +3,17 @@ import requests
 import stem as stem
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
-from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
-from crawler.constants.keys import TOR_KEYS
-from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS, TOR_PROXIES
-from crawler.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
-from crawler.crawler_services.log_manager.log_controller import log
-from crawler.crawler_services.request_manager.request_handler import request_handler
-from crawler.crawler_services.shared.env_handler import env_handler
-from crawler.crawler_services.redis_manager.redis_controller import redis_controller
-from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_CONTROL_PROXIES
 from stem import Signal
 from stem.control import Controller
+from crawler.crawler_services.log_manager.log_controller import log
+from crawler.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
+from crawler.constants.keys import TOR_KEYS
+from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
+from crawler.crawler_services.shared.env_handler import env_handler
+from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_CONTROL_PROXIES, TOR_PROXIES, TOR_COMMANDS
+from crawler.crawler_services.redis_manager.redis_controller import redis_controller
+from crawler.crawler_services.request_manager.request_handler import request_handler
+
 
 class tor_controller(request_handler):
   __instance = None

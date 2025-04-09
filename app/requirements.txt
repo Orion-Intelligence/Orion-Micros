@@ -18,3 +18,5 @@ playwright
 uvicorn
 stem
 bs4
+presidio-analyzer
+spacy

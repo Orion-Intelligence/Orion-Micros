@@ -1,38 +1,35 @@
-import re
-import phonenumbers
-from transformers import pipeline
+import spacy
+from presidio_analyzer import AnalyzerEngine, PatternRecognizer, Pattern
 from api.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
 
 
 class nlp_controller:
 
     def __init__(self):
-        model_path = "./raw/model/info_classifier"
-        self.ner_pipeline = pipeline("ner", model=model_path, tokenizer=model_path, aggregation_strategy="simple")
+        self.analyzer = AnalyzerEngine()
+        btc_pattern = Pattern("BTC Address", r"\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b", 0.8)
+        btc_recognizer = PatternRecognizer(supported_entity="CRYPTO_BTC", patterns=[btc_pattern])
+        self.analyzer.registry.add_recognizer(btc_recognizer)
+        self.spacy_nlp = spacy.load("en_core_web_lg")
 
-    @staticmethod
-    def __parse(text):
-        names = []
+    def __parse(self, text):
+        output = []
 
-        phone_numbers = set(re.findall(r'\+?\d{1,3}[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}', text))
-        emails = set(re.findall(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', text))
+        presidio_results = self.analyzer.analyze(text=text, entities=[], language='en')
+        for r in presidio_results:
+            if r.entity_type != "URL" and r.score >= 0.85:
+                entity_text = text[r.start:r.end]
+                output.append({
+                    r.entity_type: entity_text
+                })
 
-        validated_phone_numbers = set()
-        for phone in phone_numbers:
-            phone_cleaned = re.sub(r'[^\d+]', '', phone)
-            try:
-                phone_obj = phonenumbers.parse(phone_cleaned, None)
-                if phonenumbers.is_valid_number(phone_obj):
-                    validated_phone_numbers.add(phonenumbers.format_number(phone_obj, phonenumbers.PhoneNumberFormat.E164))
-            except phonenumbers.NumberParseException:
-                continue
+        doc = self.spacy_nlp(text)
+        for ent in doc.ents:
+            output.append({
+                ent.label_: ent.text
+            })
 
-        result = {
-            "names": list(names),
-            "phone_numbers": list(validated_phone_numbers),
-            "emails": list(emails)
-        }
-        return result
+        return output
 
     def invoke_trigger(self, command, data=None):
         if command == NLP_REQUEST_COMMANDS.S_PARSE:

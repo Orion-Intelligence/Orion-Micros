@@ -2,6 +2,7 @@
 from api.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, TOPIC_CLASSFIER_COMMANDS
 from api.topic_manager.topic_classifier_model import topic_classifier_model
 
+
 class topic_classifier_controller:
 
     __m_classifier = None

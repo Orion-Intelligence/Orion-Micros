@@ -3,11 +3,11 @@ import json
 import os
 import sys
 
-from api.model.rule_model import FetchProxy
-from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_QUERIES, RUNTIME_PARSE_REQUEST_COMMANDS
 from playwright.async_api import async_playwright
 from typing import Optional
 
+from api.model.rule_model import FetchProxy
+from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_QUERIES, RUNTIME_PARSE_REQUEST_COMMANDS
 from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
 
