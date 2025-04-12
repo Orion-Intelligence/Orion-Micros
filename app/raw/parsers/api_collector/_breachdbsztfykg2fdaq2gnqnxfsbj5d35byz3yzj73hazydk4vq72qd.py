@@ -45,7 +45,6 @@ class _breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd(api_collector_in
     combined_records = set()
     email_list = set()
     username_list = set()
-    print("x:::::::::::::::::::::::::: 1")
 
     page = await context.new_page()
     await page.goto(p_data_url)
@@ -53,7 +52,6 @@ class _breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd(api_collector_in
     if "This site can’t be reached" in page_content or "ERR_" in page_content:
       return collector_model
 
-    print("x:::::::::::::::::::::::::: 2")
     await page.locator("#SearchType").wait_for(timeout=120000)
 
     for search_type, query_value in [("Username", username), ("Email", email)]:
@@ -82,12 +80,9 @@ class _breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd(api_collector_in
         else:
           username_list.add(query_value)
       except Exception as _:
-        print("x:::::::::::::::::::::::::: 4")
         print(_)
-        print("x:::::::::::::::::::::::::: 4")
         continue
 
-    print("x:::::::::::::::::::::::::: 3")
     if combined_records:
       card_data = leak_model(
         m_title=f"Records for provided queries",
