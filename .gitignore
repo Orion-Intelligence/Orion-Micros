@@ -14,7 +14,6 @@ venv/*
 app/data/*
 app/logs/*
 mongo-data/*
-app/raw/parsers/*
 app/raw/model/*
 static/trustly/.well-known/model/toxic-model.zip
 app/api/raw/model/*
