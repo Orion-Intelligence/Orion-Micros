@@ -44,7 +44,7 @@ else
         docker compose -p $PROJECT_NAME build
     fi
 
-    docker compose -p $PROJECT_NAME up -d
+    docker compose -p $PROJECT_NAME up
     echo "crawler service started"
 fi
 

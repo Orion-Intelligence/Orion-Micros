@@ -22,10 +22,12 @@ class runtime_parse_controller:
     @staticmethod
     async def _initialize_webdriver(use_proxy: FetchProxy = FetchProxy.TOR) -> Optional[object]:
 
+        print(":::::::::::::::::::::::::: 1")
         tor_proxy = None
         if use_proxy == FetchProxy.TOR:
             tor_proxy, tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
 
+        print(":::::::::::::::::::::::::: 2")
         def get_block_resources(route):
             request_url = route.request.url.lower()
 
@@ -35,6 +37,7 @@ class runtime_parse_controller:
             else:
                 return route.continue_()
 
+        print(":::::::::::::::::::::::::: 3")
         proxy_url = next(iter(tor_proxy.values()))
         ip_port = proxy_url.split('//')[1]
         ip, port = ip_port.split(':')
@@ -49,6 +52,7 @@ class runtime_parse_controller:
         context = await browser.new_context()
         context.set_default_timeout(600000)
         context.set_default_navigation_timeout(600000)
+        print(":::::::::::::::::::::::::: 4")
 
         await context.route("**/*", get_block_resources)
         return context
@@ -70,22 +74,32 @@ class runtime_parse_controller:
     async def get_email_username(self, query):
         result = []
         try:
+            print(":::::::::::::::::::::::::: 5")
             if self.driver is None:
+                print(":::::::::::::::::::::::::: 6")
                 self.driver = await self._initialize_webdriver()
         except Exception as _:
+            print(":::::::::::::::::::::::::: 7")
+            print(_)
+            print(":::::::::::::::::::::::::: 7")
             return json.dumps(result)
 
         for parser in RUNTIME_PARSE_REQUEST_QUERIES.S_USERNAME:
             try:
+                print(":::::::::::::::::::::::::: 8")
                 parse_script = self.on_init_leak_parser(parser)
                 query["url"] = parse_script.base_url
                 response = await parse_script.parse_leak_data(query, self.driver)
                 if len(response.cards_data)>0:
                     result.append(response.model_dump())
             except Exception as _:
+                print(":::::::::::::::::::::::::: 9")
+                print(_)
+                print(":::::::::::::::::::::::::: 9")
                 self.driver = None
                 pass
 
+        print(":::::::::::::::::::::::::: 10")
         return json.dumps(result)
 
     def on_init_leak_parser(self, file_name):
