@@ -3,7 +3,7 @@
 PROJECT_NAME="trusted-micros"
 
 download_and_extract_model() {
-    MODEL_URL="https://drive.usercontent.google.com/download?id=1YIuWQfQhqunpwu4r9pKMBHM65-V8KXA8&export=download&authuser=0&confirm=t&uuid=e85b0ec4-e3c5-454c-b4c1-cc62659577a2&at=APcmpoxHCVQgZucCp7FonzLt2miU%3A1744026522347"
+    MODEL_URL="https://drive.usercontent.google.com/download?id=1r3hbTyLUemywwgsSkyonCOuY0fCYO2aW&export=download&authuser=0&confirm=t&uuid=70eb0256-8f74-44ac-b0e3-139c3362b17d&at=APcmpoxkYTa5yExi8JwRacxpvqtP%3A1744468036685"
     MODEL_DEST_DIR="app/raw/model"
     MODEL_DEST_FILE="$MODEL_DEST_DIR/ml_classifier.zip"
     MODEL_EXTRACTED_DIR="$MODEL_DEST_DIR/saved_model"
