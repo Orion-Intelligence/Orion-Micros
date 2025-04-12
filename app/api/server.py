@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class APIService:
 
   def __init__(self):
-    self.app = FastAPI()
+    self.app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     self.m_runtime_parser = runtime_parse_controller()
     self.m_cti_parser = cti_classifier_controller()
     self.semaphore = asyncio.Semaphore(50)
