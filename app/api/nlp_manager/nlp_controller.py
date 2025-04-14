@@ -1,4 +1,3 @@
-import spacy
 from presidio_analyzer import AnalyzerEngine, PatternRecognizer, Pattern
 from api.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
 
@@ -10,7 +9,6 @@ class nlp_controller:
         btc_pattern = Pattern("BTC Address", r"\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b", 0.8)
         btc_recognizer = PatternRecognizer(supported_entity="CRYPTO_BTC", patterns=[btc_pattern])
         self.analyzer.registry.add_recognizer(btc_recognizer)
-        self.spacy_nlp = spacy.load("en_core_web_lg")
 
     def __parse(self, text):
         output = []
@@ -22,12 +20,6 @@ class nlp_controller:
                 output.append({
                     r.entity_type: entity_text
                 })
-
-        doc = self.spacy_nlp(text)
-        for ent in doc.ents:
-            output.append({
-                ent.label_: ent.text
-            })
 
         return output
 
