@@ -1,0 +1,12 @@
+# GLOBAL KEYS
+S_SUPER_PASSWORD_V1='your_super_password'
+
+# REDIS KEYS
+REDIS_PASSWORD='your_redis_password'
+
+# I2P KEYS
+I2P_USERNAME='your_i2p_username'
+I2P_PASSWORD='your_i2p_password'
+
+# TOR KEYS
+TOR_PASSWORD='your_tor_password'
