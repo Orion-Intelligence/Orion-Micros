@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class APIService:
 
     def __init__(self):
-        self.app = FastAPI()
+        self.app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
         self.m_runtime_parser = runtime_parse_controller()
         self.m_cti_parser = cti_classifier_controller()
         self.semaphore = asyncio.Semaphore(50)
@@ -33,6 +33,8 @@ class APIService:
             raise RuntimeError("Controller initialization failed") from e
 
         self.app.add_api_route("/nlp/parse", self.nlp_parse, methods=["POST"])
+        self.app.add_api_route("/nlp/parse/ai", self.nlp_parse_ai, methods=["POST"])
+        self.app.add_api_route("/nlp/summarize/ai", self.nlp_summarise_ai, methods=["POST"])
         self.app.add_api_route("/cti_classifier/classify", self.cti_classify, methods=["POST"])
         self.app.add_api_route("/topic_classifier/predict", self.topic_classifier_predict, methods=["POST"])
         self.app.add_api_route("/runtime/parse", self.runtime_parse, methods=["POST"])
@@ -72,7 +74,7 @@ class APIService:
             logger.error("Exception occurred during runtime parse", exc_info=True)
             raise HTTPException(status_code=500, detail="An error occurred while processing the request")
 
-    async def process_request(self, request, command, controller, default_result, timeout=15):
+    async def process_request(self, request, command, controller, default_result, timeout=60):
         async with self.semaphore:
             try:
                 result = await asyncio.wait_for(
@@ -92,6 +94,25 @@ class APIService:
         return await self.process_request(
             request=[request.data],
             command=NLP_REQUEST_COMMANDS.S_PARSE,
+            controller=self.nlp_controller_instance.invoke_trigger,
+            default_result={}
+        )
+
+    async def nlp_parse_ai(self, request: parse_request_model):
+        logger.info("Received request at /nlp/parse/ai")
+        return await self.process_request(
+            request=[request.data],
+            command=NLP_REQUEST_COMMANDS.S_PARSE_AI,
+            controller=self.nlp_controller_instance.invoke_trigger,
+            default_result={}
+        )
+
+    async def nlp_summarise_ai(self, request: parse_request_model):
+        logger.info("Received request at /nlp/summarize/ai")
+        return await self.process_request(
+            timeout=60,
+            request=[request.data],
+            command=NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI,
             controller=self.nlp_controller_instance.invoke_trigger,
             default_result={}
         )

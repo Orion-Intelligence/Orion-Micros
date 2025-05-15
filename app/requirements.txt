@@ -14,7 +14,9 @@ torch==2.4.1
 fastapi~=0.115.6
 progressbar2~=4.5.0
 httpcore~=1.0.7
+RapidFuzz===3.13.0
 PyMuPDF==1.25.5
+pycountry
 python-multipart
 playwright
 uvicorn
@@ -25,3 +27,7 @@ spacy
 pdf2image
 pytesseract
 filetype
+iocextract
+ioc-finder
+nltk
+

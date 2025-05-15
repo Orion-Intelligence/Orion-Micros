@@ -29,14 +29,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tesseract-ocr \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Python packages and playwright
 RUN python3 -m ensurepip && pip install --upgrade pip && pip install playwright && playwright install --with-deps
 
+# Install Python requirements
 COPY app/requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 
+# 🧠 Download spaCy model after installing dependencies
+RUN python -m spacy download en_core_web_lg
+
+# Copy app and config
 COPY app /app
 COPY config /app
 
+# Set working directory
 WORKDIR /app
 
+# Run the app
 CMD ["uvicorn", "api.server:app", "--host", "0.0.0.0", "--port", "8010"]
