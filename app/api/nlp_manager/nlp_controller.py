@@ -82,26 +82,39 @@ class nlp_controller:
         return AnalyzerEngine(nlp_engine=provider.create_engine(), supported_languages=["en"])
 
     @staticmethod
-    def extract_technique_names_from_text(text, mitre_path="../../../app/raw/attacks/enterprise-attack.json", threshold=70):
+    def extract_technique_names_from_text(text, threshold=70):
+        mitre_path = "../../../app/raw/attacks/enterprise-attack.json"
         with open(mitre_path, "r", encoding="utf-8") as f:
             mitre_data = json.load(f)
+
         techniques = []
-        for obj in mitre_data["objects"]:
+        for obj in mitre_data.get("objects", []):
             if obj.get("type") == "attack-pattern":
                 for ref in obj.get("external_references", []):
                     if ref.get("source_name") == "mitre-attack":
-                        techniques.append({"id": ref["external_id"], "name": obj.get("name", "")})
+                        techniques.append({
+                            "id": ref["external_id"],
+                            "name": obj.get("name", ""),
+                            "type": obj.get("type", "")
+                        })
+
         for t in techniques:
             t['keywords'] = f"{t['id']} {t['name'].lower()}"
+
         sentences = [s.strip() for s in re.split(r'[.!?\n]', text) if s.strip()]
-        matches = []
+
+        matched_names = set()
+        matched_types = set()
+
         for sentence in sentences:
             sentence_lower = sentence.lower()
             for technique in techniques:
                 score = token_set_ratio(sentence_lower, technique['keywords'])
                 if score >= threshold:
-                    matches.append(technique['name'])
-        return sorted(set(matches))
+                    matched_names.add(technique["name"])
+                    matched_types.add(technique["type"])
+
+        return sorted(matched_names), sorted(matched_types)
 
     @staticmethod
     def extract_hashtags_mentions(text: str) -> Tuple[set, set]:
@@ -244,7 +257,7 @@ class nlp_controller:
         return {(ent.text, ent.label_) for ent in doc.ents if ent.label_ not in self.EXCLUDED_LABELS}
 
     @staticmethod
-    def unify_entities(phone_numbers, countries, spacy_entities, iocs, presidio_entities, credentials, hashtags, mentions, mitre_ttps, summary=None):
+    def unify_entities(phone_numbers, countries, spacy_entities, iocs, presidio_entities, credentials, hashtags, mentions, mitre_name ,mitre_type, summary=None):
         grouped = defaultdict(set)
 
         for ioc_type, values in iocs.items():
@@ -274,8 +287,10 @@ class nlp_controller:
         for mention in mentions:
             grouped["MENTION"].add(mention)
 
-        for ttp in mitre_ttps:
-            grouped["MITRE_TTP"].add(ttp)
+        for ttp in mitre_name:
+            grouped["MITRE_TTP_NAME"].add(ttp)
+        for ttp in mitre_type:
+            grouped["MITRE_TTP_TYPE"].add(ttp)
 
         if summary:
             grouped["SUMMARY"].add(summary)
@@ -308,7 +323,7 @@ class nlp_controller:
         presidio_entities = self.extract_presidio_entities(text, already_found=all_ioc_values)
         credentials = self.extract_credentials(text)
         hashtags, mentions = self.extract_hashtags_mentions(text)
-        mitre_ttps = self.extract_technique_names_from_text(text)
+        mitre_name, mitre_type = self.extract_technique_names_from_text(text)
 
         summary = None
         if ai:
@@ -323,7 +338,8 @@ class nlp_controller:
             credentials,
             hashtags,
             mentions,
-            mitre_ttps,
+            mitre_name,
+            mitre_type,
             summary=summary
         )
 
