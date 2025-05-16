@@ -70,14 +70,9 @@ class runtime_parse_controller:
     async def get_email_username(self, query):
         result = []
         try:
-            print(":::::::::::::::::::::::::: 5")
             if self.driver is None:
-                print(":::::::::::::::::::::::::: 6")
                 self.driver = await self._initialize_webdriver()
         except Exception as _:
-            print(":::::::::::::::::::::::::: 7")
-            print(_)
-            print(":::::::::::::::::::::::::: 7")
             return json.dumps(result)
 
         for parser in RUNTIME_PARSE_REQUEST_QUERIES.S_USERNAME:
