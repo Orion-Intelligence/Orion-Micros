@@ -64,8 +64,10 @@ class APIService:
             if not query or all(value == "" for value in query.values()):
                 raise HTTPException(status_code=400, detail="No valid query parameters provided or all values are empty")
 
-            async with self.semaphore:
-                response = await self.m_runtime_parser.get_email_username(query)
+            response = await asyncio.wait_for(
+                self.m_runtime_parser.get_email_username(query),
+                timeout=120
+            )
             return response
 
         except asyncio.TimeoutError:
