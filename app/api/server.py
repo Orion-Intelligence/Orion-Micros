@@ -41,7 +41,6 @@ class APIService:
         self.app.add_api_route("/ocr/parse", self.ocr_parse, methods=["POST"])
 
     async def cti_classify(self, request: parse_cti_model):
-        await asyncio.sleep(5)
         logger.info("Received request at /cti_classifier/classify")
         async with self.semaphore:
             try:
@@ -59,7 +58,6 @@ class APIService:
 
     async def runtime_parse(self, request: Request):
         try:
-            await asyncio.sleep(5)
             payload = await request.json()
             query: Dict[str, str] = payload.get("text", {})
 
@@ -79,7 +77,6 @@ class APIService:
             raise HTTPException(status_code=500, detail="An error occurred while processing the request")
 
     async def process_request(self, request, command, controller, default_result, timeout=60):
-        await asyncio.sleep(5)
         async with self.semaphore:
             try:
                 result = await asyncio.wait_for(
@@ -105,7 +102,6 @@ class APIService:
         )
 
     async def nlp_parse_ai(self, request: parse_request_model):
-        await asyncio.sleep(5)
         logger.info("Received request at /nlp/parse/ai")
         return await self.process_request(
             request=[request.data],
@@ -115,7 +111,6 @@ class APIService:
         )
 
     async def nlp_summarise_ai(self, request: parse_request_model):
-        await asyncio.sleep(5)
         logger.info("Received request at /nlp/summarize/ai")
         return await self.process_request(
             timeout=60,
@@ -126,7 +121,6 @@ class APIService:
         )
 
     async def topic_classifier_predict(self, request: classify_request_model):
-        await asyncio.sleep(5)
         logger.info("Received request at /topic_classifier/predict")
         return await self.process_request(
             request=[request.title, request.description, request.keyword],
@@ -136,7 +130,6 @@ class APIService:
         )
 
     async def ocr_parse(self, file: UploadFile = File(...)):
-        await asyncio.sleep(5)
         logger.info("Received request at /ocr/parse")
         content = await file.read()
         if len(content) > 50 * 1024 * 1024:
