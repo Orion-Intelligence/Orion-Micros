@@ -11,29 +11,29 @@ from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_Q
 from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
 
-
 class runtime_parse_controller:
 
     def __init__(self):
         self.module_cache = {}
         self.driver = None
-
+        self.playwright = None
+        self.browser = None
 
     @staticmethod
-    async def _initialize_webdriver(use_proxy: FetchProxy = FetchProxy.TOR) -> Optional[object]:
+    async def _get_block_resources(route):
+        request_url = route.request.url.lower()
+
+        if any(request_url.startswith(scheme) for scheme in ["data:image", "data:video", "data:audio"]) or \
+            route.request.resource_type in ["image", "media", "font", "stylesheet"]:
+            return await route.abort()
+        else:
+            return await route.continue_()
+
+    async def _initialize_webdriver(self, use_proxy: FetchProxy = FetchProxy.TOR) -> Optional[object]:
 
         tor_proxy = None
         if use_proxy == FetchProxy.TOR:
             tor_proxy, tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
-
-        def get_block_resources(route):
-            request_url = route.request.url.lower()
-
-            if any(request_url.startswith(scheme) for scheme in ["data:image", "data:video", "data:audio"]) or \
-                route.request.resource_type in ["image", "media", "font", "stylesheet"]:
-                return route.abort()
-            else:
-                return route.continue_()
 
         proxy_url = next(iter(tor_proxy.values()))
         ip_port = proxy_url.split('//')[1]
@@ -42,15 +42,16 @@ class runtime_parse_controller:
         proxy_port = tor_proxy.get('port', port)
         proxies = {"server": f"socks5://{proxy_host}:{proxy_port}"}
 
+        if self.playwright is None:
+            self.playwright = await async_playwright().start()
 
-        playwright = await async_playwright().start()
-        browser = await playwright.chromium.launch(headless=True, proxy=proxies)
+        if self.browser is None:
+            self.browser = await self.playwright.chromium.launch(headless=True, proxy=proxies)
 
-        context = await browser.new_context()
+        context = await self.browser.new_context()
         context.set_default_timeout(600000)
         context.set_default_navigation_timeout(600000)
-
-        await context.route("**/*", get_block_resources)
+        await context.route("**/*", self._get_block_resources)
         return context
 
     # @staticmethod
@@ -85,6 +86,9 @@ class runtime_parse_controller:
             except Exception as _:
                 print(_)
                 self.driver = None
+                if self.browser:
+                    await self.browser.close()
+                    self.browser = None
                 pass
 
         return json.dumps(result)
@@ -109,21 +113,20 @@ class runtime_parse_controller:
         if command == RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME:
             return await self.get_email_username(data)
 
-# async def main():
-#     url = "http://breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd.onion/"
-#     email = "msmannan00@gmail.com"
-#     username = "msmannan00"
-#     query = {"url": url, "email": email, "username": username}
-#
-#     try:
-#         result = await runtime_parse_controller().invoke_trigger(RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME, query)
-#         print(result)
-#     except Exception as e:
-#         print("Error occurred:", e)
-#     finally:
-#         pass
-#
-#
-# if __name__ == "__main__":
-#     asyncio.run(main())
-
+    # async def main():
+    #     url = "http://breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd.onion/"
+    #     email = "msmannan00@gmail.com"
+    #     username = "msmannan00"
+    #     query = {"url": url, "email": email, "username": username}
+    #
+    #     try:
+    #         result = await runtime_parse_controller().invoke_trigger(RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME, query)
+    #         print(result)
+    #     except Exception as e:
+    #         print("Error occurred:", e)
+    #     finally:
+    #         pass
+    #
+    #
+    # if __name__ == "__main__":
+    #     asyncio.run(main())
