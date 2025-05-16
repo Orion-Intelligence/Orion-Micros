@@ -344,7 +344,7 @@ class nlp_controller:
         )
 
         excluded_keys = {
-            "m_percent", "m_loc", "m_work_of_art", "m_nrp"
+            "m_percent", "m_iocs", "m_loc", "m_work_of_art", "m_nrp", "m_urls", "m_unencoded_urls"
         }
         email_keys = {
             "m_emails", "m_iocs", "m_email_addresses", "m_email_addresses_complete"
