@@ -92,7 +92,6 @@ class APIService:
                 return {"result": default_result}
 
     async def nlp_parse(self, request: parse_request_model):
-        await asyncio.sleep(5)
         logger.info("Received request at /nlp/parse")
         return await self.process_request(
             request=[request.data],
