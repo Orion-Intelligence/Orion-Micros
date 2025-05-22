@@ -45,7 +45,7 @@ class APIService:
         async with self.semaphore:
             try:
                 result = await asyncio.wait_for(
-                    asyncio.to_thread(self.m_cti_parser.invoke_trigger, CTI_REQUEST_COMMANDS.S_PARSE, [request.data]),
+                    asyncio.to_thread(lambda: self.m_cti_parser.invoke_trigger(CTI_REQUEST_COMMANDS.S_PARSE, [request.data])),
                     timeout=15
                 )
                 return {"result": result}
@@ -80,7 +80,7 @@ class APIService:
         async with self.semaphore:
             try:
                 result = await asyncio.wait_for(
-                    asyncio.to_thread(controller, command, request),
+                    asyncio.to_thread(lambda: controller(command, request)),
                     timeout=timeout
                 )
                 return {"result": result}
@@ -137,7 +137,7 @@ class APIService:
         async with self.semaphore:
             try:
                 result = await asyncio.wait_for(
-                    asyncio.to_thread(self.ocr_controller_instance.invoke_trigger, OCR_REQUEST_COMMANDS.S_PARSE, [content]),
+                    asyncio.to_thread(lambda: self.ocr_controller_instance.invoke_trigger(OCR_REQUEST_COMMANDS.S_PARSE, [content])),
                     timeout=60
                 )
                 return {"text": result}
