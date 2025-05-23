@@ -86,359 +86,359 @@ services:
       retries: 3
       start_period: 5s
 
-  tor-extend-2:
-    container_name: trusted-micros_tor_instace_2
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_2.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9354:9354"
-      - "0.0.0.0:9355:9355"
-    environment:
-      PUID: "20004"
-      PGID: "20005"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9354"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9355"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.11
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9354 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-3:
-    container_name: trusted-micros_tor_instace_3
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_3.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9356:9356"
-      - "0.0.0.0:9357:9357"
-    environment:
-      PUID: "20006"
-      PGID: "20007"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9356"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9357"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.12
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9356 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-4:
-    container_name: trusted-micros_tor_instace_4
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_4.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9358:9358"
-      - "0.0.0.0:9359:9359"
-    environment:
-      PUID: "20008"
-      PGID: "20009"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9358"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9359"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.13
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9358 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-5:
-    container_name: trusted-micros_tor_instace_5
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_5.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9360:9360"
-      - "0.0.0.0:9361:9361"
-    environment:
-      PUID: "20010"
-      PGID: "20011"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9360"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9361"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.14
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9360 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-6:
-    container_name: trusted-micros_tor_instace_6
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_6.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9362:9362"
-      - "0.0.0.0:9363:9363"
-    environment:
-      PUID: "20012"
-      PGID: "20013"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9362"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9363"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.15
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9362 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-7:
-    container_name: trusted-micros_tor_instace_7
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_7.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9364:9364"
-      - "0.0.0.0:9365:9365"
-    environment:
-      PUID: "20014"
-      PGID: "20015"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9364"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9365"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.16
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9364 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-8:
-    container_name: trusted-micros_tor_instace_8
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_8.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9366:9366"
-      - "0.0.0.0:9367:9367"
-    environment:
-      PUID: "20016"
-      PGID: "20017"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9366"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9367"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.17
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9366 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-9:
-    container_name: trusted-micros_tor_instace_9
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_9.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9368:9368"
-      - "0.0.0.0:9369:9369"
-    environment:
-      PUID: "20018"
-      PGID: "20019"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9368"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9369"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.18
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9368 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  tor-extend-10:
-    container_name: trusted-micros_tor_instace_10
-    image: barneybuffet/tor:latest
-    env_file:
-      - .env
-    volumes:
-      - ./config/tor/torrc_10.txt:/etc/tor/torrc:rw
-
-    ports:
-      - "0.0.0.0:9370:9370"
-      - "0.0.0.0:9371:9371"
-    environment:
-      PUID: "20030"
-      PGID: "20031"
-      TOR_CONFIG_OVERWRITE: "true"
-      TOR_LOG_CONFIG: "true"
-      TOR_PROXYL: "true"
-      TOR_PROXY_PORT: "0.0.0.0:9370"
-      TOR_PROXY_SOCKET: "true"
-      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
-      TOR_CONTROL: "true"
-      TOR_CONTROL_PORT: "0.0.0.0:9371"
-      TOR_CONTROL_SOCKET: "true"
-      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
-      TOR_CONTROL_COOKIE: "true"
-      TOR_RELAY: "false"
-    networks:
-      backend:
-        ipv4_address: 172.15.0.19
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --proxy http://localhost:9370 http://example.com || exit 1" ]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  i2p-instance:
-    container_name: trusted-micros-i2p
-    image: geti2p/i2p:latest
-    restart: unless-stopped
-    ports:
-      - "8765:7657"
-      - "8444:4444"
-      - "8445:4445"
-      - "8668:6668"
-      - "8654:7654"
-      - "8656:7656"
-      - "11223:12345"
-      - "11223:12345/udp"
-    volumes:
-      - ./config/i2p:/i2p/.i2p
-    environment:
-      - I2P_LANG=en
-      - CONSOLE_AUTH=true
-      - CONSOLE_USER=${I2P_USERNAME}
-      - CONSOLE_PASSWORD=${I2P_PASSWORD}
-    networks:
-      backend:
-        ipv4_address: 172.15.0.20
-    healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:7657 || exit 1" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
+#  tor-extend-2:
+#    container_name: trusted-micros_tor_instace_2
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_2.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9354:9354"
+#      - "0.0.0.0:9355:9355"
+#    environment:
+#      PUID: "20004"
+#      PGID: "20005"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9354"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9355"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.11
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9354 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-3:
+#    container_name: trusted-micros_tor_instace_3
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_3.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9356:9356"
+#      - "0.0.0.0:9357:9357"
+#    environment:
+#      PUID: "20006"
+#      PGID: "20007"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9356"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9357"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.12
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9356 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-4:
+#    container_name: trusted-micros_tor_instace_4
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_4.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9358:9358"
+#      - "0.0.0.0:9359:9359"
+#    environment:
+#      PUID: "20008"
+#      PGID: "20009"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9358"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9359"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.13
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9358 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-5:
+#    container_name: trusted-micros_tor_instace_5
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_5.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9360:9360"
+#      - "0.0.0.0:9361:9361"
+#    environment:
+#      PUID: "20010"
+#      PGID: "20011"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9360"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9361"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.14
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9360 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-6:
+#    container_name: trusted-micros_tor_instace_6
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_6.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9362:9362"
+#      - "0.0.0.0:9363:9363"
+#    environment:
+#      PUID: "20012"
+#      PGID: "20013"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9362"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9363"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.15
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9362 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-7:
+#    container_name: trusted-micros_tor_instace_7
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_7.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9364:9364"
+#      - "0.0.0.0:9365:9365"
+#    environment:
+#      PUID: "20014"
+#      PGID: "20015"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9364"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9365"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.16
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9364 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-8:
+#    container_name: trusted-micros_tor_instace_8
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_8.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9366:9366"
+#      - "0.0.0.0:9367:9367"
+#    environment:
+#      PUID: "20016"
+#      PGID: "20017"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9366"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9367"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.17
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9366 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-9:
+#    container_name: trusted-micros_tor_instace_9
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_9.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9368:9368"
+#      - "0.0.0.0:9369:9369"
+#    environment:
+#      PUID: "20018"
+#      PGID: "20019"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9368"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9369"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.18
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9368 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  tor-extend-10:
+#    container_name: trusted-micros_tor_instace_10
+#    image: barneybuffet/tor:latest
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./config/tor/torrc_10.txt:/etc/tor/torrc:rw
+#
+#    ports:
+#      - "0.0.0.0:9370:9370"
+#      - "0.0.0.0:9371:9371"
+#    environment:
+#      PUID: "20030"
+#      PGID: "20031"
+#      TOR_CONFIG_OVERWRITE: "true"
+#      TOR_LOG_CONFIG: "true"
+#      TOR_PROXYL: "true"
+#      TOR_PROXY_PORT: "0.0.0.0:9370"
+#      TOR_PROXY_SOCKET: "true"
+#      TOR_PROXY_ACCEPT: 'accept 172.15.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+#      TOR_CONTROL: "true"
+#      TOR_CONTROL_PORT: "0.0.0.0:9371"
+#      TOR_CONTROL_SOCKET: "true"
+#      TOR_CONTROL_PASSWORD: ${TOR_PASSWORD}
+#      TOR_CONTROL_COOKIE: "true"
+#      TOR_RELAY: "false"
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.19
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --proxy http://localhost:9370 http://example.com || exit 1" ]
+#      interval: 120s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
+#
+#  i2p-instance:
+#    container_name: trusted-micros-i2p
+#    image: geti2p/i2p:latest
+#    restart: unless-stopped
+#    ports:
+#      - "8765:7657"
+#      - "8444:4444"
+#      - "8445:4445"
+#      - "8668:6668"
+#      - "8654:7654"
+#      - "8656:7656"
+#      - "11223:12345"
+#      - "11223:12345/udp"
+#    volumes:
+#      - ./config/i2p:/i2p/.i2p
+#    environment:
+#      - I2P_LANG=en
+#      - CONSOLE_AUTH=true
+#      - CONSOLE_USER=${I2P_USERNAME}
+#      - CONSOLE_PASSWORD=${I2P_PASSWORD}
+#    networks:
+#      backend:
+#        ipv4_address: 172.15.0.20
+#    healthcheck:
+#      test: [ "CMD-SHELL", "wget -qO- http://localhost:7657 || exit 1" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 5s
 
 
 volumes:
