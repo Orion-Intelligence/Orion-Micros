@@ -19,7 +19,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 8G
+          memory: 16G
 
     healthcheck:
       test: [ "CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/8010' || exit 1" ]
