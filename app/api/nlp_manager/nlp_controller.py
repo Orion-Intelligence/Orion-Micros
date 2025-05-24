@@ -28,14 +28,10 @@ class nlp_controller:
 
     @staticmethod
     async def __llama_summarize(text: str, model: str = "tinyllama", summarize: bool = False) -> str:
-        print("::::::::::::::::::::: x4", flush=True)
         text = text[0:500]
-        print("::::::::::::::::::::: x5", flush=True)
         API_URL = "http://168.231.86.34:11434/api/chat"
-        print("::::::::::::::::::::: x6", flush=True)
 
         if summarize:
-            print("::::::::::::::::::::: x7", flush=True)
             model = "llama3.2"
             prompt = (
                 "this is data posted on darkweb by a threat actor. Write executive summary only about what is in the report dont add conclusion or any suggestions. dont add what is not in report "
@@ -43,7 +39,6 @@ class nlp_controller:
                 "'Executive summary:', 'Sure', 'Here is the summary:', etc.\n\n" + text
             )
         else:
-            print("::::::::::::::::::::: x8", flush=True)
             prompt = (
                 "Write executive summary only about what is in the report dont add conclusion or any suggestions. dont add what is not in report "
                 "Start directly with the incident. Do not include any introductions, headings, or phrases like "
@@ -60,12 +55,9 @@ class nlp_controller:
         }
 
         try:
-            print("::::::::::::::::::::: x9", flush=True)
             async with httpx.AsyncClient(timeout=120) as client:
                 response = await client.post(API_URL, json=data)
-                print("::::::::::::::::::::: x10", flush=True)
                 if response.status_code == 200:
-                    print("::::::::::::::::::::: x11", flush=True)
                     raw_output = response.json()["message"]["content"]
                     clean_output = raw_output.strip()
                     prefixes_to_remove = [
@@ -78,10 +70,8 @@ class nlp_controller:
                             break
                     return clean_output
                 else:
-                    print("::::::::::::::::::::: x12", flush=True)
                     return f"[LLaMA API Error {response.status_code}] {response.text}"
         except Exception as e:
-            print("::::::::::::::::::::: x13", flush=True)
             return f"[LLaMA Exception] {str(e)}"
 
     @staticmethod
@@ -321,7 +311,6 @@ class nlp_controller:
         return text.strip()
 
     async def __parse(self, text, ai=False):
-        await asyncio.sleep(100000000)
         text = self.clean_text(text)
 
         iocs = defaultdict(set, self.extract_iocs_from_text(text))
@@ -388,5 +377,4 @@ class nlp_controller:
         if command == NLP_REQUEST_COMMANDS.S_PARSE_AI:
             return await self.__parse(data[0], True)
         if command == NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI:
-            print("::::::::::::::::::::: x3", flush=True)
             return await self.__llama_summarize(data[0], summarize=True)

@@ -31,7 +31,7 @@ class APIService:
         self.m_runtime_parser = runtime_parse_controller()
         self.m_cti_parser = cti_classifier_controller()
 
-        self.semaphore = asyncio.Semaphore(1)
+        self.semaphore = asyncio.Semaphore(20)
         self.waiting_requests = 0
         self.waiting_lock = asyncio.Lock()
 
@@ -69,14 +69,14 @@ class APIService:
         async with self.waiting_lock:
             return {
                 "waiting_queue_size": self.waiting_requests,
-                "active_slots": 1 - self.semaphore._value,
+                "active_slots": 20 - self.semaphore._value,
                 "available_slots": self.semaphore._value
             }
 
     async def log_queue_size(self):
         while True:
             async with self.waiting_lock:
-                logger.info(f"[Queue Monitor] Waiting: {self.waiting_requests}, In Use: {1 - self.semaphore._value}, Available: {self.semaphore._value}")
+                logger.info(f"[Queue Monitor] Waiting: {self.waiting_requests}, In Use: {20- self.semaphore._value}, Available: {self.semaphore._value}")
             await asyncio.sleep(5)
 
     async def cti_classify(self, request: parse_cti_model):
@@ -150,10 +150,8 @@ class APIService:
         )
 
     async def nlp_summarise_ai(self, request: parse_request_model):
-        print("::::::::::::::::::::: x1", flush=True)
         logger.info("Received request at /nlp/summarize/ai")
         try:
-            print("::::::::::::::::::::: x2", flush=True)
             result = await asyncio.wait_for(
                 self.nlp_controller_instance.invoke_trigger(
                     NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI, [request.data]
