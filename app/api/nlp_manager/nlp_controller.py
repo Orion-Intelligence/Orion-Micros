@@ -4,6 +4,7 @@ import ioc_finder
 import inspect
 import pycountry
 import json, re
+import httpx
 import requests
 
 from collections import defaultdict
