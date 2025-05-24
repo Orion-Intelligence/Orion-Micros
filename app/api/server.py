@@ -149,9 +149,10 @@ class APIService:
         logger.info("Received request at /nlp/summarize/ai")
         try:
             result = await asyncio.wait_for(
-                asyncio.to_thread(lambda: self.nlp_controller_instance.invoke_trigger(
-                    NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI, [request.data])),
-                timeout=60
+                self.nlp_controller_instance.invoke_trigger(
+                    NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI, [request.data]
+                ),
+                timeout=100
             )
             return {"result": result}
         except asyncio.TimeoutError:

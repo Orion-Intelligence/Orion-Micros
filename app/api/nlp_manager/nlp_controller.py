@@ -17,26 +17,24 @@ from api.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
 
 class nlp_controller:
 
+
     @staticmethod
-    def __llama_summarize(text: str, model: str = "tinyllama", summarize:bool = False) -> str:
+    async def __llama_summarize(text: str, model: str = "tinyllama", summarize: bool = False) -> str:
         text = text[0:500]
         API_URL = "http://168.231.86.34:11434/api/chat"
-        headers = {
-            "Content-Type": "application/json"
-        }
 
         if summarize:
             model = "llama3.2"
             prompt = (
-                "this is data posted on darkweb by a threat actor. Write executive summary only about what is in the report dont add conclusion or any suggestions. dont add what is not in report"
+                "this is data posted on darkweb by a threat actor. Write executive summary only about what is in the report dont add conclusion or any suggestions. dont add what is not in report "
                 "Start directly with the incident. Do not include any introductions, headings, or phrases like "
-                "'Executive summary:', 'Sure', 'Here is the summary:', etc. . dont add what is not in report\n\n" + text
+                "'Executive summary:', 'Sure', 'Here is the summary:', etc.\n\n" + text
             )
         else:
             prompt = (
-                "Write executive summary only about what is in the report dont add conclusion or any suggestions. dont add what is not in report"
+                "Write executive summary only about what is in the report dont add conclusion or any suggestions. dont add what is not in report "
                 "Start directly with the incident. Do not include any introductions, headings, or phrases like "
-                "'Executive summary:', 'Sure', 'Here is the summary:', etc. . dont add what is not in report\n\n" + text
+                "'Executive summary:', 'Sure', 'Here is the summary:', etc.\n\n" + text
             )
 
         data = {
@@ -49,28 +47,24 @@ class nlp_controller:
         }
 
         try:
-            response = requests.post(API_URL, headers=headers, json=data, timeout=120)
-            if response.ok:
-                raw_output = response.json()["message"]["content"]
-                clean_output = raw_output.strip()
-                prefixes_to_remove = [
-                    "executive summary:", "summary:", "here is the summary:", "here's the summary:",
-                    "sure, here's the summary:", "sure:", "summary -", "summary —"
-                ]
-                for prefix in prefixes_to_remove:
-                    if clean_output.lower().startswith(prefix):
-                        clean_output = clean_output[len(prefix):].lstrip()
-                        break
-                return clean_output
-            else:
-                return f"[LLaMA API Error {response.status_code}] {response.text}"
+            async with httpx.AsyncClient(timeout=120) as client:
+                response = await client.post(API_URL, json=data)
+                if response.status_code == 200:
+                    raw_output = response.json()["message"]["content"]
+                    clean_output = raw_output.strip()
+                    prefixes_to_remove = [
+                        "executive summary:", "summary:", "here is the summary:", "here's the summary:",
+                        "sure, here's the summary:", "sure:", "summary -", "summary —"
+                    ]
+                    for prefix in prefixes_to_remove:
+                        if clean_output.lower().startswith(prefix):
+                            clean_output = clean_output[len(prefix):].lstrip()
+                            break
+                    return clean_output
+                else:
+                    return f"[LLaMA API Error {response.status_code}] {response.text}"
         except Exception as e:
             return f"[LLaMA Exception] {str(e)}"
-
-    def __init__(self):
-        self.analyzer = self.setup_presidio()
-        self.nlp = spacy.load("en_core_web_lg")
-        self.EXCLUDED_LABELS = {"TIME", "QUANTITY", "ORDINAL", "MONEY", "DATE", "CARDINAL"}
 
     @staticmethod
     def setup_presidio():
