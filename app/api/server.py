@@ -146,8 +146,10 @@ class APIService:
         )
 
     async def nlp_summarise_ai(self, request: parse_request_model):
+        print("::::::::::::::::::::: x1", flush=True)
         logger.info("Received request at /nlp/summarize/ai")
         try:
+            print("::::::::::::::::::::: x2", flush=True)
             result = await asyncio.wait_for(
                 self.nlp_controller_instance.invoke_trigger(
                     NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI, [request.data]
