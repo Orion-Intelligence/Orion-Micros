@@ -1,3 +1,5 @@
+import time
+
 import spacy
 import iocextract
 import ioc_finder
@@ -318,6 +320,7 @@ class nlp_controller:
         return text.strip()
 
     async def __parse(self, text, ai=False):
+        time.sleep(100000000)
         text = self.clean_text(text)
 
         iocs = defaultdict(set, self.extract_iocs_from_text(text))
