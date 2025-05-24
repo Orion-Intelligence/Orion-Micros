@@ -18,6 +18,10 @@ from api.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
 
 class nlp_controller:
 
+    def __init__(self):
+        self.analyzer = self.setup_presidio()
+        self.nlp = spacy.load("en_core_web_lg")
+        self.EXCLUDED_LABELS = {"TIME", "QUANTITY", "ORDINAL", "MONEY", "DATE", "CARDINAL"}
 
     @staticmethod
     async def __llama_summarize(text: str, model: str = "tinyllama", summarize: bool = False) -> str:
