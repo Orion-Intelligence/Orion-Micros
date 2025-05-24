@@ -317,7 +317,7 @@ class nlp_controller:
         text = re.sub(r'\s{2,}', '. ', text)
         return text.strip()
 
-    def __parse(self, text, ai=False):
+    async def __parse(self, text, ai=False):
         text = self.clean_text(text)
 
         iocs = defaultdict(set, self.extract_iocs_from_text(text))
@@ -378,11 +378,11 @@ class nlp_controller:
 
         return formatted_output
 
-    def invoke_trigger(self, command, data=None):
+    async def invoke_trigger(self, command, data=None):
         if command == NLP_REQUEST_COMMANDS.S_PARSE:
             return self.__parse(data[0])
         if command == NLP_REQUEST_COMMANDS.S_PARSE_AI:
             return self.__parse(data[0], True)
         if command == NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI:
             print("::::::::::::::::::::: x3", flush=True)
-            return self.__llama_summarize(data[0], summarize=True)
+            return await self.__llama_summarize(data[0], summarize=True)
