@@ -115,10 +115,14 @@ class APIService:
     async def process_request(self, request, command, controller, default_result, timeout=60):
         async with self.track_waiting():
             try:
-                result = await asyncio.wait_for(
-                    asyncio.to_thread(lambda: controller(command, request)),
-                    timeout=timeout
-                )
+                if asyncio.iscoroutinefunction(controller):
+                    coro_result = controller(command, request)
+                    result = await asyncio.wait_for(coro_result, timeout=timeout)
+                else:
+                    result = await asyncio.wait_for(
+                        asyncio.to_thread(lambda: controller(command, request)),
+                        timeout=timeout
+                    )
                 return {"result": result}
             except asyncio.TimeoutError:
                 logger.warning(f"Request for command '{command}' timed out after {timeout} seconds. Returning default result.")
