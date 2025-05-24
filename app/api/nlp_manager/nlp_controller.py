@@ -380,9 +380,9 @@ class nlp_controller:
 
     async def invoke_trigger(self, command, data=None):
         if command == NLP_REQUEST_COMMANDS.S_PARSE:
-            return self.__parse(data[0])
+            return await self.__parse(data[0])
         if command == NLP_REQUEST_COMMANDS.S_PARSE_AI:
-            return self.__parse(data[0], True)
+            return await self.__parse(data[0], True)
         if command == NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI:
             print("::::::::::::::::::::: x3", flush=True)
             return await self.__llama_summarize(data[0], summarize=True)

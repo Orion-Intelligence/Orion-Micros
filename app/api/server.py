@@ -166,12 +166,15 @@ class APIService:
 
     async def topic_classifier_predict(self, request: classify_request_model):
         logger.info("Received request at /topic_classifier/predict")
-        return await self.process_request(
-            request=[request.title, request.description, request.keyword],
-            command=TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER,
-            controller=self.topic_classifier_instance.invoke_trigger,
-            default_result=[TOPIC_CATEGORIES.S_THREAD_CATEGORY_GENERAL]
-        )
+        try:
+            result = await self.topic_classifier_instance.invoke_trigger(
+                TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER,
+                [request.title, request.description, request.keyword]
+            )
+            return {"result": result}
+        except Exception:
+            logger.error("Topic classification failed", exc_info=True)
+            return {"result": [TOPIC_CATEGORIES.S_THREAD_CATEGORY_GENERAL]}
 
     async def ocr_parse(self, file: UploadFile = File(...)):
         logger.info("Received request at /ocr/parse")
