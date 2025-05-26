@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class APIService:
 
     def __init__(self):
-        executor = concurrent.futures.ThreadPoolExecutor(max_workers=50)
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
         loop = asyncio.get_event_loop()
         loop.set_default_executor(executor)
 
@@ -31,7 +31,7 @@ class APIService:
         self.m_runtime_parser = runtime_parse_controller()
         self.m_cti_parser = cti_classifier_controller()
 
-        self.semaphore = asyncio.Semaphore(20)
+        self.semaphore = asyncio.Semaphore(5)
         self.waiting_requests = 0
         self.waiting_lock = asyncio.Lock()
 
@@ -69,14 +69,14 @@ class APIService:
         async with self.waiting_lock:
             return {
                 "waiting_queue_size": self.waiting_requests,
-                "active_slots": 20 - self.semaphore._value,
+                "active_slots": 5 - self.semaphore._value,
                 "available_slots": self.semaphore._value
             }
 
     async def log_queue_size(self):
         while True:
             async with self.waiting_lock:
-                logger.info(f"[Queue Monitor] Waiting: {self.waiting_requests}, In Use: {20- self.semaphore._value}, Available: {self.semaphore._value}")
+                logger.info(f"[Queue Monitor] Waiting: {self.waiting_requests}, In Use: {5- self.semaphore._value}, Available: {self.semaphore._value}")
             await asyncio.sleep(5)
 
     async def cti_classify(self, request: parse_cti_model):
