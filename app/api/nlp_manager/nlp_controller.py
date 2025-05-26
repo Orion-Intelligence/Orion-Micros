@@ -272,8 +272,8 @@ class nlp_controller:
         for country in countries:
             grouped["COUNTRY"].add(country)
 
-        for text, label in spacy_entities:
-            grouped[label].add(text)
+        # for text, label in spacy_entities:
+        #     grouped[label].add(text)
 
         for label, values in presidio_entities.items():
             for val in values:
@@ -321,7 +321,7 @@ class nlp_controller:
         all_ioc_values = {val for values in iocs.values() for val in values}
         phone_numbers, countries_from_international_numbers = self.extract_phone_data(text, all_ioc_values)
         all_countries = self.extract_countries_from_text(text, countries_from_international_numbers)
-        spacy_entities = self.extract_spacy_entities(text)
+        #spacy_entities = self.extract_spacy_entities(text)
         presidio_entities = self.extract_presidio_entities(text, already_found=all_ioc_values)
         credentials = self.extract_credentials(text)
         hashtags, mentions = self.extract_hashtags_mentions(text)
@@ -334,7 +334,8 @@ class nlp_controller:
         grouped_output = self.unify_entities(
             phone_numbers,
             all_countries,
-            spacy_entities,
+            None,
+            #spacy_entities,
             iocs,
             presidio_entities,
             credentials,
