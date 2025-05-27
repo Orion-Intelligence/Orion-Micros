@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class APIService:
-    MAX_CONCURRENT_REQUESTS = 10
+    MAX_CONCURRENT_REQUESTS = 20
 
     def __init__(self):
         executor = concurrent.futures.ThreadPoolExecutor(max_workers=self.MAX_CONCURRENT_REQUESTS)
