@@ -98,6 +98,11 @@ class nlp_controller:
                     return content
                 return f"[LLaMA API Error {response.status_code}] {response.text}"
         except Exception as e:
+            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
+            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
+            print(str(e), flush=True)
+            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
+            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
             return f"[LLaMA Exception] {str(e)}"
 
     def extract_technique_names_from_text(self, text, threshold=70):
