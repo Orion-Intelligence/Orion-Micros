@@ -286,3 +286,4 @@ class nlp_controller:
             return await self.__parse(data[0][0:1000], True)
         if command == NLP_REQUEST_COMMANDS.S_SUMMARIZE_AI:
             return await self.__llama_summarize(data[0][0:1000], summarize=True)
+        return None
