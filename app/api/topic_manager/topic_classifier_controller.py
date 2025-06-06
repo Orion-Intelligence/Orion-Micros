@@ -26,3 +26,4 @@ class topic_classifier_controller:
             return await self.__predict_classifier(p_data[0], p_data[1], p_data[2])
         if p_command == TOPIC_CLASSFIER_COMMANDS.S_CLEAN_CLASSIFIER:
             return await self.__clean_classifier()
+        return None

@@ -30,17 +30,21 @@ class topic_classifier_model:
         max_score = logits.max().item()
         threshold = max(0.4 * max_score, 2.0)
 
-        top_k = 3
         top_k_values, top_k_indices = torch.topk(logits, k=logits.size(0), dim=-1)
 
         unique_predictions = []
+        adult_present = False
         for idx, score in zip(top_k_indices.tolist(), top_k_values.tolist()):
-            if len(unique_predictions) < top_k and score >= threshold:
-                label = TOPIC_CATEGORIES.get_label(idx)
-                if label not in unique_predictions:
-                    unique_predictions.append(label)
-            if len(unique_predictions) >= top_k:
+            label = TOPIC_CATEGORIES.get_label(idx)
+            if label == TOPIC_CATEGORIES.S_THREAD_CATEGORY_ADULT:
+                adult_present = score >= threshold
+            if len(unique_predictions) < 3 and score >= threshold and label not in unique_predictions:
+                unique_predictions.append(label)
+            if len(unique_predictions) >= 3:
                 break
+
+        if adult_present and TOPIC_CATEGORIES.S_THREAD_CATEGORY_ADULT not in unique_predictions:
+            unique_predictions.append(TOPIC_CATEGORIES.S_THREAD_CATEGORY_ADULT)
 
         return unique_predictions
 
@@ -58,3 +62,4 @@ class topic_classifier_model:
             return self.__predict_classifier(p_data[0], p_data[1], p_data[2])
         if p_command == TOPIC_CLASSFIER_MODEL.S_CLEAN_CLASSIFIER:
             return self.cleanup()
+        return None
