@@ -10,7 +10,7 @@ Pillow~=11.0.0
 onnxruntime==1.19.2
 scikit-image==0.22.0
 pydantic==2.9.2
-torch==2.4.1
+torch==2.6.0
 fastapi~=0.115.6
 progressbar2~=4.5.0
 httpcore~=1.0.7
