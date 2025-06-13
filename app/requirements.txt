@@ -1,6 +1,6 @@
 requests~=2.32.0
 numpy==1.26.0
-transformers==4.48.0
+transformers
 pymongo==4.8.0
 phonenumbers==8.13.16
 redis==5.2.1
