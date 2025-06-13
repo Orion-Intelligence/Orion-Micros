@@ -108,7 +108,8 @@ class helper_method:
             if re.search(r"\.i2p$", parsed_url.netloc, re.IGNORECASE):
                 return "i2p"
             return "clearnet"
-        except Exception:
+        except Exception as ex:
+            log.g().i(ex)
             return "invalid"
 
     @staticmethod

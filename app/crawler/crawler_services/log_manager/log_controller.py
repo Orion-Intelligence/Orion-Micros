@@ -92,8 +92,8 @@ class log:
 
                 os.chmod(self.__current_log_file, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 
-            except Exception as e:
-                print(f"Error writing to log: {e}")
+            except Exception as ex:
+                logging.log(logging.ERROR, ex)
 
     def __set_current_log_file(self, log_directory):
         log_files = sorted([f for f in os.listdir(log_directory)
@@ -159,7 +159,7 @@ class log:
             sys.stdout.flush()
 
         except Exception:
-            pass
+            logging.log(logging.ERROR, ex)
 
     def s(self, p_log):
         try:
@@ -169,7 +169,7 @@ class log:
             sys.stdout.flush()
 
         except Exception:
-            pass
+            logging.log(logging.ERROR, ex)
 
     def w(self, p_log):
         try:
@@ -179,7 +179,7 @@ class log:
             sys.stdout.flush()
 
         except Exception:
-            pass
+            logging.log(logging.ERROR, ex)
 
     def e(self, p_log):
         try:
@@ -189,7 +189,7 @@ class log:
             sys.stdout.flush()
 
         except Exception:
-            pass
+            logging.log(logging.ERROR, ex)
 
     def c(self, p_log):
         try:
@@ -199,4 +199,4 @@ class log:
             sys.stdout.flush()
 
         except Exception:
-            pass
+            logging.log(logging.ERROR, ex)
