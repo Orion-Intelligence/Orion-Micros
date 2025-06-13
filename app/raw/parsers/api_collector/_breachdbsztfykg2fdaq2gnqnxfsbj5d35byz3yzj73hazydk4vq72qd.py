@@ -7,6 +7,7 @@ from crawler.crawler_instance.local_shared_model.data_model.entity_model import 
 from crawler.crawler_instance.local_shared_model.data_model.leak_model import leak_model
 from crawler.crawler_instance.local_interface_model.api.api_data_model import api_data_model
 from crawler.crawler_instance.local_shared_model.rule_model import RuleModel, FetchProxy, FetchConfig, ThreatType
+from crawler.crawler_services.log_manager.log_controller import log
 from crawler.crawler_services.shared.helper_method import helper_method
 
 
@@ -80,8 +81,8 @@ class _breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd(api_collector_in
                     email_list.add(query_value)
                 else:
                     username_list.add(query_value)
-            except Exception as _:
-                print(_)
+            except Exception as ex:
+                log.g().i(ex)
                 continue
 
         if combined_records:

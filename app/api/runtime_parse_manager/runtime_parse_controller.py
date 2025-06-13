@@ -10,6 +10,7 @@ from api.model.rule_model import FetchProxy
 from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_QUERIES, RUNTIME_PARSE_REQUEST_COMMANDS
 from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
+from crawler.crawler_services.log_manager.log_controller import log
 
 
 class runtime_parse_controller:
@@ -74,7 +75,8 @@ class runtime_parse_controller:
         try:
             if self.driver is None:
                 self.driver = await self._initialize_webdriver()
-        except Exception as _:
+        except Exception as ex:
+            log.g().i(ex)
             return json.dumps(result)
 
         for parser in RUNTIME_PARSE_REQUEST_QUERIES.S_USERNAME:
@@ -84,8 +86,8 @@ class runtime_parse_controller:
                 response = await parse_script.parse_leak_data(query, self.driver)
                 if len(response.cards_data) > 0:
                     result.append(response.model_dump())
-            except Exception as _:
-                print(_)
+            except Exception as ex:
+                log.g().i(ex)
                 self.driver = None
                 if self.browser:
                     await self.browser.close()
@@ -107,7 +109,8 @@ class runtime_parse_controller:
                 self.module_cache[class_name] = class_()
             return self.module_cache[class_name]
 
-        except Exception as _:
+        except Exception as ex:
+            log.g().i(ex)
             return None
 
     async def invoke_trigger(self, command, data=None):
