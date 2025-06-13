@@ -15,6 +15,7 @@ from phonenumbers import PhoneNumberMatcher, is_valid_number, region_code_for_nu
 from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 from presidio_analyzer.nlp_engine import NlpEngineProvider
 from api.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
+from crawler.crawler_services.log_manager.log_controller import log
 
 
 class nlp_controller:
@@ -168,8 +169,8 @@ class nlp_controller:
                     results = func(text, refang=True) if 'refang' in inspect.signature(func).parameters else func(text)
                     for val in results:
                         extracted[name.replace("extract_", "").upper()].add(val)
-                except:
-                    continue
+                except Exception as ex:
+                    log.g().i(ex)
         try:
             matches = ioc_finder.find_iocs(text)
             for ioc_type, values in matches.items():
@@ -178,8 +179,8 @@ class nlp_controller:
                         extracted[f"{ioc_type}_{sub_type}".upper()].update(sub_values)
                 else:
                     extracted[ioc_type.upper()].update(values)
-        except:
-            pass
+        except Exception as ex:
+            log.g().i(ex)
         return {label: sorted(values) for label, values in extracted.items()}
 
     def extract_custom_iocs(self, text):
@@ -204,8 +205,9 @@ class nlp_controller:
                             country = pycountry.countries.get(alpha_2=code)
                             if country:
                                 countries.add(country.name)
-            except:
-                continue
+            except Exception as ex:
+                log.g().i(ex)
+
         return detected, countries
 
     def extract_countries_from_text(self, text, from_numbers):

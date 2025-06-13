@@ -1,4 +1,3 @@
-# Local Imports
 import json
 import os
 import re
@@ -279,12 +278,6 @@ class helper_method:
         if m_host_url.endswith("/"):
             m_host_url = m_host_url[:-1]
         return m_host_url
-
-    @staticmethod
-    def hash_file_name(p_url):
-        full_url = p_url.strip()
-        md5_hash = hashlib.md5(full_url.encode('utf-8')).hexdigest()
-        return ''.join(str(int(c, 16) % 10) for c in md5_hash)[:32]
 
     @staticmethod
     def clean_text(text: str) -> str:

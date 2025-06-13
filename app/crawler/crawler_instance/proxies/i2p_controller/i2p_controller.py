@@ -30,7 +30,7 @@ class i2p_controller(request_handler):
 
             for subscription_url in I2P_PROXY.SUBSCRIPTION_URLS:
                 try:
-                    response = requests.get(subscription_url, proxies=proxies)
+                    response = requests.get(subscription_url, proxies=proxies, timeout=5000)
                     response.raise_for_status()
 
                     for line in response.text.splitlines():
@@ -56,5 +56,7 @@ class i2p_controller(request_handler):
     def invoke_trigger(self, p_command, p_data=None):
         if p_command == I2P_COMMANDS.S_FETCH:
             return self.fetch_known_urls()
-        if p_command == I2P_COMMANDS.S_PROXY:
+        elif p_command == I2P_COMMANDS.S_PROXY:
             return self.get_proxy()
+        else:
+            return None
