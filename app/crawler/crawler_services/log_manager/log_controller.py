@@ -158,7 +158,7 @@ class log:
             self.__server_instance.info(console_log)
             sys.stdout.flush()
 
-        except Exception:
+        except Exception as ex:
             logging.log(logging.ERROR, ex)
 
     def s(self, p_log):
@@ -168,7 +168,7 @@ class log:
             self.__write_to_file(console_log)
             sys.stdout.flush()
 
-        except Exception:
+        except Exception as ex:
             logging.log(logging.ERROR, ex)
 
     def w(self, p_log):
@@ -178,7 +178,7 @@ class log:
             self.__write_to_file(console_log)
             sys.stdout.flush()
 
-        except Exception:
+        except Exception as ex:
             logging.log(logging.ERROR, ex)
 
     def e(self, p_log):
@@ -188,7 +188,7 @@ class log:
             self.__write_to_file(console_log)
             sys.stdout.flush()
 
-        except Exception:
+        except Exception as ex:
             logging.log(logging.ERROR, ex)
 
     def c(self, p_log):
@@ -198,5 +198,5 @@ class log:
             self.__write_to_file(console_log)
             sys.stdout.flush()
 
-        except Exception:
+        except Exception as ex:
             logging.log(logging.ERROR, ex)
