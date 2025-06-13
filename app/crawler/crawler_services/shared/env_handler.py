@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+
 class env_handler:
     __instance = None
     _env_vars = {}

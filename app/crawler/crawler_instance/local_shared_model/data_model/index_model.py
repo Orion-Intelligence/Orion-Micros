@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class index_model(BaseModel):
     m_base_url: str
     m_url: str
@@ -20,24 +21,25 @@ class index_model(BaseModel):
     m_section: List[str]
     m_clearnet_links: List[str]
 
+
 def index_model_init(
-    m_base_url: str,
-    m_url: str,
-    m_network: str,
-    m_title: str,
-    m_meta_description: str,
-    m_content: str,
-    m_important_content: str,
-    m_images: List[str],
-    m_sub_url: List[str],
-    m_document: List[str],
-    m_video: List[str],
-    m_archive_url: List[str],
-    m_validity_score: int,
-    m_meta_keywords: str,
-    m_content_type: List[str],
-    m_section: List[str],
-    m_clearnet_links: List[str],
+        m_base_url: str,
+        m_url: str,
+        m_network: str,
+        m_title: str,
+        m_meta_description: str,
+        m_content: str,
+        m_important_content: str,
+        m_images: List[str],
+        m_sub_url: List[str],
+        m_document: List[str],
+        m_video: List[str],
+        m_archive_url: List[str],
+        m_validity_score: int,
+        m_meta_keywords: str,
+        m_content_type: List[str],
+        m_section: List[str],
+        m_clearnet_links: List[str],
 ) -> index_model:
     return index_model(
         m_base_url=m_base_url,

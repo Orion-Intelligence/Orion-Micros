@@ -74,7 +74,8 @@ class APIService:
             async with self.waiting_lock:
                 self.active_requests -= 1
                 logger.info(f"[END] Request to {endpoint}. In Use: {self.active_requests}")
-                logger.info(f"[CLOSED] Request to {endpoint}. Final state — Waiting: {self.waiting_requests}, In Use: {self.active_requests}")
+                logger.info(
+                    f"[CLOSED] Request to {endpoint}. Final state — Waiting: {self.waiting_requests}, In Use: {self.active_requests}")
 
     async def semaphore_status(self):
         async with self.waiting_lock:

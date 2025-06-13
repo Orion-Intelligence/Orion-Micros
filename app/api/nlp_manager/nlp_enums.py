@@ -1,6 +1,5 @@
-
 class NLP_REQUEST_COMMANDS:
-  S_INIT = 1
-  S_PARSE = 2
-  S_PARSE_AI = 3
-  S_SUMMARIZE_AI = 4
+    S_INIT = 1
+    S_PARSE = 2
+    S_PARSE_AI = 3
+    S_SUMMARIZE_AI = 4

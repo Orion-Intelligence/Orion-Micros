@@ -5,6 +5,7 @@ from playwright.async_api import BrowserContext
 
 from crawler.crawler_instance.local_shared_model.rule_model import RuleModel
 
+
 class api_collector_interface(ABC):
     @property
     @abstractmethod

@@ -1,8 +1,9 @@
 class network_type:
-  CLEARNET = "clearnet"
-  I2P = "i2p"
-  ONION = "onion"
-  INVALID = "invalid"
+    CLEARNET = "clearnet"
+    I2P = "i2p"
+    ONION = "onion"
+    INVALID = "invalid"
+
 
 VALID_NETWORK_TYPES = [
     "clearnet",

@@ -1,3 +1,3 @@
 class OCR_REQUEST_COMMANDS:
-  S_INIT = 1
-  S_PARSE = 2
+    S_INIT = 1
+    S_PARSE = 2

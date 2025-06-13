@@ -69,16 +69,17 @@ class nlp_controller:
         API_URL = "http://168.231.86.34:11434/api/chat"
         model = "llama3.2" if summarize else model
         prompt = (
-            "this is data posted on darkweb by a threat actor. Write executive summary only about what is in the report "
-            "dont add conclusion or any suggestions. dont add what is not in report. "
-            "Start directly with the incident. Do not include any introductions, headings, or phrases like "
-            "'Executive summary:', 'Sure', 'Here is the summary:', etc.\n\n" + text
+                "this is data posted on darkweb by a threat actor. Write executive summary only about what is in the report "
+                "dont add conclusion or any suggestions. dont add what is not in report. "
+                "Start directly with the incident. Do not include any introductions, headings, or phrases like "
+                "'Executive summary:', 'Sure', 'Here is the summary:', etc.\n\n" + text
         )
 
         data = {
             "model": model,
             "messages": [
-                {"role": "system", "content": "Treat this prompt as a standalone request. Do not retain or use any previous context."},
+                {"role": "system",
+                 "content": "Treat this prompt as a standalone request. Do not retain or use any previous context."},
                 {"role": "user", "content": prompt}
             ],
             "stream": False
@@ -98,11 +99,6 @@ class nlp_controller:
                     return content
                 return f"[LLaMA API Error {response.status_code}] {response.text}"
         except Exception as e:
-            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
-            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
-            print(str(e), flush=True)
-            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
-            print(":::::::::::::::::::::::::::::::::::::::::::::", flush=True)
             return f"[LLaMA Exception] {str(e)}"
 
     def extract_technique_names_from_text(self, text, threshold=70):
@@ -210,7 +206,8 @@ class nlp_controller:
         return detected, countries
 
     def extract_countries_from_text(self, text, from_numbers):
-        matches = re.findall(r'\b(' + '|'.join(re.escape(name) for name in self.country_name_set) + r')\b', text, flags=re.IGNORECASE)
+        matches = re.findall(r'\b(' + '|'.join(re.escape(name) for name in self.country_name_set) + r')\b', text,
+                             flags=re.IGNORECASE)
         from_text = {pycountry.countries.lookup(name).name for name in matches}
         return from_numbers | from_text
 
@@ -218,7 +215,9 @@ class nlp_controller:
         return {(ent.text, ent.label_) for ent in self.nlp(text).ents if ent.label_ not in self.EXCLUDED_LABELS}
 
     @staticmethod
-    def unify_entities(phone_numbers, countries, spacy_entities, iocs, presidio_entities, credentials, hashtags, mentions, mitre_name, mitre_type, summary=None):
+    def unify_entities(phone_numbers, countries, spacy_entities, iocs, presidio_entities, credentials, hashtags,
+                       mentions,
+                       mitre_name, mitre_type, summary=None):
         grouped = defaultdict(set)
         for ioc_type, values in iocs.items():
             grouped[ioc_type].update(values)
@@ -245,7 +244,9 @@ class nlp_controller:
 
     @staticmethod
     def clean_text(text):
-        return re.sub(r'\s{2,}', '. ', re.sub(r'[\r\n\t\\]+', '. ', text.encode('utf-8', 'ignore').decode('unicode_escape', 'ignore'))).strip()
+        return re.sub(r'\s{2,}', '. ', re.sub(r'[\r\n\t\\]+', '. ',
+                                              text.encode('utf-8', 'ignore').decode('unicode_escape',
+                                                                                    'ignore'))).strip()
 
     async def __parse(self, text, ai=False):
         text = self.clean_text(text)
@@ -261,7 +262,8 @@ class nlp_controller:
         tags, mentions = self.extract_hashtags_mentions(text)
         mitre_name, mitre_type = self.extract_technique_names_from_text(text)
         summary = await self.__llama_summarize(text, summarize=True) if ai else None
-        grouped = self.unify_entities(phones, countries, spacy_ents, iocs, presidio, creds, tags, mentions, mitre_name, mitre_type, summary)
+        grouped = self.unify_entities(phones, countries, spacy_ents, iocs, presidio, creds, tags, mentions, mitre_name,
+                                      mitre_type, summary)
 
         excluded = {"m_percent", "m_iocs", "m_loc", "m_work_of_art", "m_nrp", "m_urls", "m_unencoded_urls"}
         email_keys = {"m_emails", "m_iocs", "m_email_addresses", "m_email_addresses_complete"}
@@ -271,7 +273,9 @@ class nlp_controller:
             if not values or k in excluded:
                 continue
 
-            def valid(v): return len(v) <= 15 and re.match(r'^[\w\s]+$', v) if k in {"m_person", "m_org", "m_location"} else True
+            def valid(v):
+                return len(v) <= 15 and re.match(r'^[\w\s]+$', v) if k in {"m_person", "m_org", "m_location"} else True
+
             if k in email_keys:
                 merged.setdefault("m_email", set()).update(v for v in values if v and valid(v))
             else:

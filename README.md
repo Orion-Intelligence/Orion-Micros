@@ -8,17 +8,17 @@
 ![homepage](https://github.com/user-attachments/assets/37fcf444-40be-46c9-8bd8-45a22d824141)
 
 # Orion Platform
+
 DOCUMENTATION  https://orion-search.readthedocs.io
 
-<br>
 Orion Platform is a comprehensive, web-based solution that combines the functionality of a browser, search engine, crawler, and data aggregation tools to empower OSINT (Open Source Intelligence) experts. Built on top of Docker, Orion provides a user-friendly interface to explore, search, and visualize data extracted by its powerful Orion Crawler.<br><br>
 
 The platform integrates seamlessly with machine learning models, enhancing search relevance and enabling advanced content analysis. Orion supports a broad range of functionalities, including the ability to search, filter, and visualize data across multiple categories, making it an invaluable tool for data exploration and intelligence gathering.<br>
 
 Designed with flexibility and scalability in mind, Orion enables OSINT experts to feed data directly into the platform, ensuring up-to-date and comprehensive datasets. Whether for investigative research, competitive analysis, or general information gathering, Orion provides a unified ecosystem that enhances the workflow of professionals who rely on actionable insights.<br>
-<br>
 
 ## 1. Repository Quality and Build Status
+
 | Repository                                     | Codacy                                                                                   | CodeQL                                                                                               | MDN HTTP Observatory                                                                                          | Security Headers                                                                                             | SSLLabs                                                                                                      |
 |-----------------------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | [Orion Search](https://github.com/msmannan00/Orion-Search)   | ![Codacy Badge](https://app.codacy.com/project/badge/Grade/a1f302d35c0f4f8c9293acabc5086512) | ![CodeQL](https://github.com/msmannan00/Orion-Search/actions/workflows/github-code-scanning/codeql/badge.svg)   | [![Status](https://img.shields.io/badge/observatory-A%2B-brightgreen)](https://developer.mozilla.org/en-US/observatory/analyze?host=orion.genesistechnologies.org) | [![Status](https://img.shields.io/badge/security%20headers-A%2B-brightgreen)](https://securityheaders.com/?q=https%3A%2F%2Forion.genesistechnologies.org%2F&followRedirects=on) | [![Status](https://img.shields.io/static/v1?label=SSLLabs&message=A%2B&color=%3CCOLOR%3E)](https://www.ssllabs.com/ssltest/analyze.html?d=orion.genesistechnologies.org&latest) |
@@ -53,12 +53,14 @@ The Orion platform is built using various technologies to provide optimal search
 
 
 ## 4. Data Extraction Techniques
+
 This is a comprehensive flow diagram illustrating the functioning of the multithreaded crawler. It outlines the entire process, from initializing threads and managing task distribution to efficiently retrieving and processing data from multiple sources concurrently. The diagram highlights key components, such as task queues, thread synchronization mechanisms, and data handling workflows, providing a clear and detailed representation of the crawler's architecture and operational flow
 
 ![image(1)](https://github.com/user-attachments/assets/696cf009-a0f3-4995-91fe-58e53b128825)
 
 
 ## 5. Deep Data Linting Roadmap
+
 This document outlines the proposed solution and future roadmap for deep data linting, focusing on integrating insights from multiple sources into a unified platform. The solution emphasizes advanced data validation, cross-source correlation, and seamless integration to ensure comprehensive data quality checks. The roadmap highlights phased development, scalability enhancements, and feature expansions aimed at providing a robust and centralized approach to data insight and linting
 
 ![linting(2)](https://github.com/user-attachments/assets/ce1885dc-e701-45f6-89ab-9f412b057373)

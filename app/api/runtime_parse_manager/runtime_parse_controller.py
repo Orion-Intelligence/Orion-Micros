@@ -11,6 +11,7 @@ from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_Q
 from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
 
+
 class runtime_parse_controller:
 
     def __init__(self):
@@ -24,7 +25,7 @@ class runtime_parse_controller:
         request_url = route.request.url.lower()
 
         if any(request_url.startswith(scheme) for scheme in ["data:image", "data:video", "data:audio"]) or \
-            route.request.resource_type in ["image", "media", "font", "stylesheet"]:
+                route.request.resource_type in ["image", "media", "font", "stylesheet"]:
             return await route.abort()
         else:
             return await route.continue_()
@@ -33,7 +34,7 @@ class runtime_parse_controller:
 
         tor_proxy = None
         if use_proxy == FetchProxy.TOR:
-            tor_proxy, tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
+            tor_proxy, _ = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
 
         proxy_url = next(iter(tor_proxy.values()))
         ip_port = proxy_url.split('//')[1]
@@ -81,7 +82,7 @@ class runtime_parse_controller:
                 parse_script = self.on_init_leak_parser(parser)
                 query["url"] = parse_script.base_url
                 response = await parse_script.parse_leak_data(query, self.driver)
-                if len(response.cards_data)>0:
+                if len(response.cards_data) > 0:
                     result.append(response.model_dump())
             except Exception as _:
                 print(_)
@@ -112,6 +113,7 @@ class runtime_parse_controller:
     async def invoke_trigger(self, command, data=None):
         if command == RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME:
             return await self.get_email_username(data)
+        return None
 
     # async def main():
     #     url = "http://breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd.onion/"
