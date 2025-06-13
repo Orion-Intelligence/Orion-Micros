@@ -92,7 +92,6 @@ class runtime_parse_controller:
                 if self.browser:
                     await self.browser.close()
                     self.browser = None
-                pass
 
         return json.dumps(result)
 

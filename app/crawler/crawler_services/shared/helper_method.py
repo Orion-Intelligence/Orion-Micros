@@ -253,7 +253,8 @@ class helper_method:
         try:
             result = urlparse(p_url)
             return all([result.scheme, result.netloc])
-        except:
+        except Exception as ex:
+            log.g().e(f"Error removing file {ex}")
             return False
 
     @staticmethod
