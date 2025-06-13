@@ -51,7 +51,8 @@ class nlp_controller:
                 if ref.get("source_name") == "mitre-attack"
             ]
 
-    def setup_presidio(self):
+    @staticmethod
+    def setup_presidio():
         configuration = {
             "nlp_engine_name": "spacy",
             "models": [{"lang_code": "en", "model_name": "en_core_web_lg"}]
@@ -64,7 +65,8 @@ class nlp_controller:
 
         return AnalyzerEngine(registry=registry, nlp_engine=nlp_engine, supported_languages=["en"])
 
-    async def __llama_summarize(self, text: str, model: str = "tinyllama", summarize: bool = False) -> str:
+    @staticmethod
+    async def __llama_summarize(text: str, model: str = "tinyllama", summarize: bool = False) -> str:
         text = text[0:500]
         API_URL = "http://168.231.86.34:11434/api/chat"
         model = "llama3.2" if summarize else model
@@ -187,7 +189,8 @@ class nlp_controller:
                 custom_iocs[label].add(match.strip())
         return custom_iocs
 
-    def extract_phone_data(self, text, exclude_set):
+    @staticmethod
+    def extract_phone_data(text, exclude_set):
         detected, countries = set(), set()
         for region_code in SUPPORTED_REGIONS:
             try:
@@ -273,8 +276,8 @@ class nlp_controller:
             if not values or k in excluded:
                 continue
 
-            def valid(v):
-                return len(v) <= 15 and re.match(r'^[\w\s]+$', v) if k in {"m_person", "m_org", "m_location"} else True
+            def valid(is_valid):
+                return len(is_valid) <= 15 and re.match(r'^[\w\s]+$', is_valid) if k in {"m_person", "m_org", "m_location"} else True
 
             if k in email_keys:
                 merged.setdefault("m_email", set()).update(v for v in values if v and valid(v))
