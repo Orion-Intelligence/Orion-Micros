@@ -150,8 +150,8 @@ class helper_method:
             with open(file_path, 'w'):
                 pass
 
-        except Exception:
-            pass
+        except Exception as ex:
+            log.g().i(ex)
 
     @staticmethod
     def get_host_name(p_url):
