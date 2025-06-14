@@ -124,11 +124,11 @@ class APIService:
                     timeout=120
                 )
                 return response
-            except asyncio.TimeoutError:
-                raise HTTPException(status_code=504, detail="Request timeout")
-            except Exception:
+            except asyncio.TimeoutError as exc:
+                raise HTTPException(status_code=504, detail="Request timeout") from exc
+            except Exception as exc:
                 logger.error("Error in runtime parse", exc_info=True)
-                raise HTTPException(status_code=500, detail="Server error")
+                raise HTTPException(status_code=500, detail="Server error") from exc
 
     async def process_request(self, request, command, controller, default_result, timeout=60, endpoint="unknown"):
         async with self.track_waiting(endpoint):
@@ -206,12 +206,12 @@ class APIService:
                     timeout=60
                 )
                 return {"text": result}
-            except asyncio.TimeoutError:
+            except asyncio.TimeoutError as exc:
                 logger.warning("OCR timeout")
-                raise HTTPException(status_code=504, detail="Timeout")
-            except Exception:
+                raise HTTPException(status_code=504, detail="Timeout") from exc
+            except Exception as exc:
                 logger.error("OCR error", exc_info=True)
-                raise HTTPException(status_code=500, detail="Error processing file")
+                raise HTTPException(status_code=500, detail="Error processing file") from exc
 
 
 api_service = APIService()

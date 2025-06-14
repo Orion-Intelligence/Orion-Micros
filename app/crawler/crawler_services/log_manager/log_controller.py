@@ -87,7 +87,7 @@ class log:
                 caller_class, caller_file, caller_line = self.get_caller_info()
                 full_log_message = f"{log_message} - {caller_class} ({caller_file}:{caller_line})"
 
-                with open(self.__current_log_file, 'a') as log_file:
+                with open(self.__current_log_file, 'a', encoding='utf-8') as log_file:
                     log_file.write(full_log_message + "\n")
 
                 os.chmod(self.__current_log_file, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)

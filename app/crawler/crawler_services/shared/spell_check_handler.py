@@ -10,10 +10,12 @@ class spell_checker_handler:
     __spell_check = None
 
     def __init__(self):
-        self.__spell_check = set(open(SPELL_CHECK_CONSTANTS.S_DICTIONARY_PATH).read().split())
+        with open(SPELL_CHECK_CONSTANTS.S_DICTIONARY_PATH, encoding='utf-8') as f:
+            self.__spell_check = set(f.read().split())
 
     def init_dict(self):
-        self.__spell_check = set(open(SPELL_CHECK_CONSTANTS.S_DICTIONARY_MINI_PATH).read().split())
+        with open(SPELL_CHECK_CONSTANTS.S_DICTIONARY_MINI_PATH, encoding='utf-8') as f:
+            self.__spell_check = set(f.read().split())
 
     def validate_word(self, p_word):
         if p_word in self.__spell_check:

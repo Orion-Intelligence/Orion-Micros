@@ -147,7 +147,7 @@ class helper_method:
         try:
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
-            with open(file_path, 'w'):
+            with open(file_path, 'w', encoding='utf-8'):
                 pass
 
         except Exception as ex:

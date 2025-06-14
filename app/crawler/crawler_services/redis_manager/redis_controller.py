@@ -13,10 +13,6 @@ class redis_controller:
             decode_responses=True
         )
 
-    @classmethod
-    def destroy_instance(cls):
-        cls.__instance = None
-
     def close_connection(self):
         self.__redis.close()
 
